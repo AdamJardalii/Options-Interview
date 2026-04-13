@@ -159,6 +159,41 @@ export default function TradeCard() {
         </div>
       )}
 
+      {/* Theme toggle — outside the transitioning div so position:fixed is never broken */}
+      <div
+        style={{
+          position: 'fixed', top: 14, right: 16, zIndex: 1000,
+          display: 'flex',
+          background: C.surface,
+          border: `1px solid ${C.border}`,
+          borderRadius: 20, overflow: 'hidden',
+          fontSize: 11, fontWeight: 600,
+          userSelect: 'none',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+        }}
+      >
+        {[['dark', '🌙 Dark'], ['light', '☀️ Light']].map(([val, label]) => {
+          const active = theme === val;
+          return (
+            <button
+              key={val}
+              onClick={() => { if (!active) toggleTheme(); }}
+              style={{
+                padding: '5px 13px',
+                border: 'none',
+                cursor: active ? 'default' : 'pointer',
+                background: active ? C.accent : 'transparent',
+                color: active ? '#fff' : C.muted,
+                transition: 'background 0.18s, color 0.18s',
+                letterSpacing: '0.03em',
+              }}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
+
       <div
         style={{
           background: C.bg, minHeight: '100vh',
@@ -167,40 +202,6 @@ export default function TradeCard() {
           transition: 'background 0.25s ease',
         }}
       >
-        {/* Theme toggle — fixed so it's always visible on scroll */}
-        <div
-          style={{
-            position: 'fixed', top: 14, right: 16, zIndex: 100,
-            display: 'flex',
-            background: C.surface,
-            border: `1px solid ${C.border}`,
-            borderRadius: 20, overflow: 'hidden',
-            fontSize: 11, fontWeight: 600,
-            userSelect: 'none',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-          }}
-        >
-          {[['dark', '🌙 Dark'], ['light', '☀️ Light']].map(([val, label]) => {
-            const active = theme === val;
-            return (
-              <button
-                key={val}
-                onClick={() => { if (!active) toggleTheme(); }}
-                style={{
-                  padding: '5px 13px',
-                  border: 'none',
-                  cursor: active ? 'default' : 'pointer',
-                  background: active ? C.accent : 'transparent',
-                  color: active ? '#fff' : C.muted,
-                  transition: 'background 0.18s, color 0.18s',
-                  letterSpacing: '0.03em',
-                }}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
         <div
           className="trade-card"
           style={{
